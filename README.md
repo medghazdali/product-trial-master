@@ -1,61 +1,42 @@
-# Consignes
+# Product Trial Project / Projet d'Essai Produit
 
-- Vous êtes développeur front-end : vous devez réaliser les consignes décrites dans le chapitre [Front-end](#Front-end)
+## Project Overview / Vue d'ensemble
+This project is an e-commerce platform for Alten with both front-end and back-end components. The implementation can be done as front-end only, back-end only, or full-stack.
 
-- Vous êtes développeur back-end : vous devez réaliser les consignes décrites dans le chapitre [Back-end](#Back-end) (*)
+Ce projet est une plateforme e-commerce pour Alten avec des composants front-end et back-end. L'implémentation peut être réalisée en front-end uniquement, back-end uniquement, ou en full-stack.
 
-- Vous êtes développeur full-stack : vous devez réaliser les consignes décrites dans le chapitre [Front-end](#Front-end) et le chapitre [Back-end](#Back-end) (*)
+## Front-end Features / Fonctionnalités Front-end
 
-(*) Afin de tester votre API, veuillez proposer une stratégie de test appropriée.
+### Part 1: Shop / Partie 1: Boutique
+- Display all relevant product information in the list
+- Add products to cart from the list
+- Remove products from cart
+- Display a badge showing the number of products in cart
+- View the list of products in the cart
 
-## Front-end
+### Part 2: Contact Form / Partie 2: Formulaire de Contact
+- Create a new menu item in the sidebar ("Contact")
+- Create a "Contact" page with a form
+- Form fields:
+  - Email (required)
+  - Message (required, max 300 characters)
+- Display success message after submission
 
-Le site de e-commerce d'Alten a besoin de s'enrichir de nouvelles fonctionnalités.
+### Bonus Features / Fonctionnalités Bonus
+- Product pagination and/or filtering
+- Product quantity adjustment in list and cart views
 
-### Partie 1 : Shop
+## Back-end Features / Fonctionnalités Back-end
 
-- Afficher toutes les informations pertinentes d'un produit sur la liste
-- Permettre d'ajouter un produit au panier depuis la liste 
-- Permettre de supprimer un produit du panier
-- Afficher un badge indiquant la quantité de produits dans le panier
-- Permettre de visualiser la liste des produits qui composent le panier.
+### Part 1: Product Management / Partie 1: Gestion des Produits
+- RESTful API endpoints:
+  | Resource           | POST                  | GET                            | PATCH                                    | PUT | DELETE           |
+  | ------------------ | --------------------- | ------------------------------ | ---------------------------------------- | --- | ---------------- |
+  | **/products**      | Create a new product  | Retrieve all products          | X                                        | X   |     X            |
+  | **/products/:id**  | X                     | Retrieve details for product 1 | Update details of product 1 if it exists | X   | Remove product 1 |
 
-### Partie 2
-
-- Créer un nouveau point de menu dans la barre latérale ("Contact")
-- Créer une page "Contact" affichant un formulaire
-- Le formulaire doit permettre de saisir son email, un message et de cliquer sur "Envoyer"
-- Email et message doivent être obligatoirement remplis, message doit être inférieur à 300 caractères.
-- Quand le message a été envoyé, afficher un message à l'utilisateur : "Demande de contact envoyée avec succès".
-
-### Bonus : 
-
-- Ajouter un système de pagination et/ou de filtrage sur la liste des produits
-- On doit pouvoir visualiser et ajuster la quantité des produits depuis la liste et depuis le panier 
-
-## Back-end
-
-### Partie 1
-
-Développer un back-end permettant la gestion de produits définis plus bas.
-Vous pouvez utiliser la technologie de votre choix parmi la liste suivante :
-
-- Node.js/Express
-- Java/Spring Boot
-- C#/.net Core
-- PHP/Symphony : Utilisation d'API Platform interdite
-
-
-Le back-end doit gérer les API suivantes : 
-
-| Resource           | POST                  | GET                            | PATCH                                    | PUT | DELETE           |
-| ------------------ | --------------------- | ------------------------------ | ---------------------------------------- | --- | ---------------- |
-| **/products**      | Create a new product  | Retrieve all products          | X                                        | X   |     X            |
-| **/products/:id**  | X                     | Retrieve details for product 1 | Update details of product 1 if it exists | X   | Remove product 1 |
-
-Un produit a les caractéristiques suivantes : 
-
-``` typescript
+- Product model:
+```typescript
 class Product {
   id: number;
   code: string;
@@ -74,36 +55,27 @@ class Product {
 }
 ```
 
-Le back-end créé doit pouvoir gérer les produits dans une base de données SQL/NoSQL ou dans un fichier json.
+### Part 2: Authentication & User Features / Partie 2: Authentification & Fonctionnalités Utilisateur
+- JWT-based authentication
+- User registration and login endpoints:
+  - [POST] /account (Registration)
+  - [POST] /token (Login)
+- Admin privileges (admin@admin.com)
+- Shopping cart management
+- Wishlist functionality
 
-### Partie 2
+## Technical Stack / Stack Technique
+- Front-end: Modern web technologies
+- Back-end options:
+  - Node.js/Express
+  - Java/Spring Boot
+  - C#/.NET Core
+  - PHP/Symphony (without API Platform)
 
-- Imposer à l'utilisateur de se connecter pour accéder à l'API.
-  La connexion doit être gérée en utilisant un token JWT.  
-  Deux routes devront être créées :
-  * [POST] /account -> Permet de créer un nouveau compte pour un utilisateur avec les informations fournies par la requête.   
-    Payload attendu : 
-    ```
-    {
-      username: string,
-      firstname: string,
-      email: string,
-      password: string
-    }
-    ```
-  * [POST] /token -> Permet de se connecter à l'application.  
-    Payload attendu :  
-    ```
-    {
-      email: string,
-      password: string
-    }
-    ```
-    Une vérification devra être effectuée parmi tout les utilisateurs de l'application afin de connecter celui qui correspond aux infos fournies. Un token JWT sera renvoyé en retour de la reqûete.
-- Faire en sorte que seul l'utilisateur ayant le mail "admin@admin.com" puisse ajouter, modifier ou supprimer des produits. Une solution simple et générique devra être utilisée. Il n'est pas nécessaire de mettre en place une gestion des accès basée sur les rôles.
-- Ajouter la possibilité pour un utilisateur de gérer un panier d'achat pouvant contenir des produits.
-- Ajouter la possibilité pour un utilisateur de gérer une liste d'envie pouvant contenir des produits.
+## Database / Base de données
+- SQL/NoSQL database support
+- JSON file storage option
 
-## Bonus
-
-Vous pouvez ajouter des tests Postman ou Swagger pour valider votre API
+## Testing / Tests
+- API testing strategy
+- Optional Postman/Swagger documentation
