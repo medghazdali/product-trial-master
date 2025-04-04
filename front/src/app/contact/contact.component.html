@@ -1,0 +1,60 @@
+<div class="contact-container">
+  <div class="contact-card">
+    <h2>Contactez-nous</h2>
+    <p>N'hésitez pas à nous contacter pour toute question ou demande d'information.</p>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input 
+          id="email" 
+          type="email" 
+          pInputText 
+          formControlName="email"
+          [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('email')}"
+          placeholder="Votre email"
+        />
+        <small class="error-message" *ngIf="isFieldInvalid('email')">
+          {{ getErrorMessage('email') }}
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea 
+          id="message" 
+          pInputTextarea 
+          formControlName="message"
+          [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('message')}"
+          placeholder="Votre message (minimum 300 caractères)"
+          rows="5"
+        ></textarea>
+        <div class="message-counter" [ngClass]="getMessageCounterClass()">
+          {{ messageLength }}/{{ minMessageLength }} caractères
+          <span *ngIf="messageLength < warningThreshold" class="error-text">
+            (Message trop court)
+          </span>
+          <span *ngIf="messageLength >= warningThreshold && messageLength < minMessageLength" class="warning-text">
+            (Approche du minimum requis)
+          </span>
+          <span *ngIf="messageLength >= minMessageLength" class="success-text">
+            (Longueur suffisante)
+          </span>
+        </div>
+        <small class="error-message" *ngIf="isFieldInvalid('message')">
+          {{ getErrorMessage('message') }}
+        </small>
+      </div>
+
+      <button 
+        pButton 
+        type="submit" 
+        label="Envoyer" 
+        [disabled]="!contactForm.valid"
+        class="submit-button"
+      ></button>
+    </form>
+  </div>
+</div>
+
+<p-toast></p-toast> 

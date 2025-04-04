@@ -1,0 +1,85 @@
+<div class="grid">
+  <div class="col-12">
+    <p-card>
+      <div class="flex justify-content-between align-items-center mb-4">
+        <h2>Products</h2>
+        <div class="flex gap-2">
+          <p-dropdown 
+            [options]="categories" 
+            [(ngModel)]="selectedCategory" 
+            placeholder="Filter by category"
+            (onChange)="filterByCategory($event.value)"
+            [showClear]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <p-table 
+        [value]="filteredProducts" 
+        [loading]="loading"
+        [paginator]="true" 
+        [rows]="rows"
+        [first]="first"
+        [totalRecords]="totalRecords"
+        (onPage)="onPageChange($event)"
+        [tableStyle]="{'min-width': '50rem'}"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <img [src]="product.image" [alt]="product.name" style="width: 50px" />
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.price | currency }}</td>
+            <td>
+              <p-tag [severity]="getStatusSeverity(product.inventoryStatus)" [value]="product.inventoryStatus"></p-tag>
+            </td>
+            <td>
+              <p-inputNumber 
+                [(ngModel)]="product.quantity" 
+                [min]="1" 
+                [max]="100"
+                (onInput)="updateQuantity(product, $event.value)"
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                spinnerMode="horizontal"
+                [inputStyle]="{'width': '100px'}"
+                decrementButtonClass="p-button-secondary"
+                incrementButtonClass="p-button-secondary"
+              ></p-inputNumber>
+            </td>
+            <td>
+              <div class="flex gap-2">
+                <p-button 
+                  icon="pi pi-shopping-cart" 
+                  (click)="addToCart(product)"
+                  styleClass="p-button-rounded p-button-success"
+                  [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"
+                ></p-button>
+                <p-button 
+                  [icon]="isInWishlist(product.id) ? 'pi pi-heart-fill' : 'pi pi-heart'"
+                  (click)="toggleWishlist(product)"
+                  [styleClass]="isInWishlist(product.id) ? 'p-button-rounded p-button-danger' : 'p-button-rounded p-button-secondary'"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div>
+
+<p-toast></p-toast> 

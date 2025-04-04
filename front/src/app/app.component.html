@@ -1,0 +1,72 @@
+<div class="min-h-screen flex relative lg:static surface-ground">
+  <div id="app-sidebar" 
+       class="surface-section h-screen hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border w-18rem"
+       [class.block]="sidebarVisible"
+       [class.hidden]="!sidebarVisible">
+    <div class="flex flex-column h-full">
+      <div class="flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="height:60px">
+        <h2 class="text-white m-0">Alten Shop</h2>
+      </div>
+      <div class="overflow-y-auto">
+        <ul class="list-none p-3 m-0">
+          <li>
+            <a routerLink="/products" 
+               routerLinkActive="bg-primary" 
+               class="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors">
+              <i class="pi pi-shopping-bag mr-2"></i>
+              <span class="font-medium">Products</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/cart" 
+               routerLinkActive="bg-primary" 
+               class="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors">
+              <i class="pi pi-shopping-cart mr-2"></i>
+              <span class="font-medium">Cart</span>
+              <span *ngIf="cartItemCount > 0" class="ml-auto px-2 py-1 border-round bg-primary text-white">
+                {{ cartItemCount }}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/wishlist" 
+               routerLinkActive="bg-primary" 
+               class="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors">
+              <i class="pi pi-heart mr-2"></i>
+              <span class="font-medium">Wishlist</span>
+              <span *ngIf="wishlistItemCount > 0" class="ml-auto px-2 py-1 border-round bg-primary text-white">
+                {{ wishlistItemCount }}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/contact" 
+               routerLinkActive="bg-primary" 
+               class="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors">
+              <i class="pi pi-envelope mr-2"></i>
+              <span class="font-medium">Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-screen flex flex-column relative flex-auto">
+    <div class="flex justify-content-between align-items-center px-5 py-3 surface-ground border-bottom-1 surface-border">
+      <div class="flex align-items-center">
+        <button pButton icon="pi pi-bars" class="p-button-text mr-3 lg:hidden" (click)="toggleSidebar()"></button>
+        <h2 class="m-0">{{ getCurrentPageTitle() }}</h2>
+      </div>
+      <div class="flex align-items-center">
+        <button pButton icon="pi pi-user" class="p-button-text" (click)="logout()" *ngIf="isAuthenticated()"></button>
+      </div>
+    </div>
+
+    <div class="p-5 flex-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

@@ -1,0 +1,64 @@
+<div class="grid">
+  <div class="col-12">
+    <p-card header="Shopping Cart">
+      <p-table [value]="cartItems" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>
+              <div class="flex align-items-center">
+                <img [src]="item.image" [alt]="item.name" style="width: 50px; margin-right: 1rem;" />
+                <span>{{ item.name }}</span>
+              </div>
+            </td>
+            <td>{{ item.price | currency }}</td>
+            <td>
+              <p-inputNumber 
+                [(ngModel)]="item.quantity" 
+                [min]="1" 
+                [max]="100"
+                (onInput)="updateQuantity(item.id, $event.value)"
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                spinnerMode="horizontal"
+                [inputStyle]="{'width': '100px'}"
+                decrementButtonClass="p-button-secondary"
+                incrementButtonClass="p-button-secondary"
+              ></p-inputNumber>
+            </td>
+            <td>{{ item.price * item.quantity | currency }}</td>
+            <td>
+              <p-button 
+                icon="pi pi-trash" 
+                (click)="removeFromCart(item.id)"
+                styleClass="p-button-rounded p-button-danger"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="3" class="text-right font-bold">Total:</td>
+            <td class="font-bold">{{ total | currency }}</td>
+            <td></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center p-4">
+              Your cart is empty
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div> 
